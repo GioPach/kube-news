@@ -24,8 +24,8 @@ pipeline {
                 script {
                     // dockerhub = id da credencial adicionada ao Jenkins
                     docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
-                        dockerapp.push('latest')
                         dockerapp.push("${env.BUILD_ID}")
+                        dockerapp.push('latest')
                     }
                 }
             }
@@ -48,3 +48,6 @@ pipeline {
 
 // ? Solução para Jenkins CI Pipeline Scripts not permitted to use method:
 // painel -> Manage Jenkins -> In-process Script Approval -> aprovar método pendente
+
+// ? dockerapp.pushes devem estar dentro do escopo de docker.withRegistry (logar antes)
+// ? pode-se usar variáveis de ambiente com environment {} e refs pelo nome
