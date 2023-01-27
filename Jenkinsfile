@@ -1,4 +1,9 @@
 pipeline {
+
+    environment {
+        registryCredential = 'dockerhub'
+    }
+
     // quem executa a pipeline: any -> qualquer agente pode exec
     // pode especificar...máquina windows, linux, container, etc. (docs)
     agent any
@@ -18,9 +23,10 @@ pipeline {
             steps {
                 script {
                     // dockerhub = id da credencial adicionada ao Jenkins
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub')
-                    dockerapp.push('latest')
-                    dockerapp.push("${env.BUILD_ID}")
+                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+                        dockerapp.push('latest')
+                        dockerapp.push("${env.BUILD_ID}")
+                    }
                 }
             }
         }
@@ -39,3 +45,6 @@ pipeline {
     - id = dockerhub
 
 */
+
+// ? Solução para Jenkins CI Pipeline Scripts not permitted to use method:
+// painel -> Manage Jenkins -> In-process Script Approval -> aprovar método pendente
