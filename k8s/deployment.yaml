@@ -55,7 +55,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: pach5/kube-news:v2
+          image: pach5/kube-news:{{TAG}} # atualizar versão
           ports:
           - containerPort: 8080
           env:
