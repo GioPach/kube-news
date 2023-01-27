@@ -9,7 +9,7 @@ pipeline {
             steps {
                 script {
                     // ${env.BUILD_ID} -> incrementa id do build (um jeito)
-                    dockerapp = docker.build('pach5/kube-news:${env.BUILD_ID}', '-f ./src/Dockerfile ./src')
+                    dockerapp = docker.build("fabricioveronez/kube-news:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
                 }
             }
         }
@@ -18,3 +18,4 @@ pipeline {
 
 
 }
+// depois de criar o jenkinsfile -> painel -> Build Now
