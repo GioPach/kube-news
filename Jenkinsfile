@@ -9,7 +9,7 @@ pipeline {
             steps {
                 script {
                     // ${env.BUILD_ID} -> incrementa id do build (um jeito)
-                    dockerapp = docker.build("pach5/kube-news:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
+                    dockerapp = docker.build("fabricioveronez/kube-news:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
                 }
             }
         }
@@ -17,7 +17,10 @@ pipeline {
         stage ('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', )
+                    // dockerhub = id da credencial adicionada ao Jenkins
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub')
+                    dockerapp.push('latest')
+                    dockerapp.push("${env.BUILD_ID}")
                 }
             }
         }
