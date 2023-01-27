@@ -51,9 +51,9 @@ pipeline {
 
 // Observações:
 /*
- Depois de criar o jenkinsfile -> painel -> Build Now
+ Depois de criar o jenkinsfile -> Jenkins -> Build Now
  Adicionar credenciais do docker hub ao jenkins para dar push na imagem
- painel -> Manage Jenkins -> Credentials -> System -> Global credentials
+ Jenkins -> Manage Jenkins -> Credentials -> System -> Global credentials
 
  Criar credencial dockerhub:
     Username with password
@@ -67,7 +67,13 @@ pipeline {
 */
 
 // ? Solução para Jenkins CI Pipeline Scripts not permitted to use method:
-// painel -> Manage Jenkins -> In-process Script Approval -> aprovar método pendente
+// Jenkins -> Manage Jenkins -> In-process Script Approval -> aprovar método pendente
 
 // ? dockerapp.pushes devem estar dentro do escopo de docker.withRegistry (logar antes)
 // ? pode-se usar variáveis de ambiente com environment {} e refs pelo nome
+
+// Automatizar Build Now:
+// Jenkins -> Projeto -> Configure -> Habilitar GitHub hook trigger
+// GitHub -> Projeto -> Settings -> Webhooks -> Add WebHook:
+// payload url = endereço jenkins + nome do webhook + "/":
+//    - http://134.209.44.10:8080/github-webhook/
