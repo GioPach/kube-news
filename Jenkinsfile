@@ -1,7 +1,8 @@
 pipeline {
 
     environment {
-        registryCredential = 'dockerhub'
+        dockerCredential = 'dockerhub'
+        kubeConfigCredential = 'kubeconfig'
     }
 
     // quem executa a pipeline: any -> qualquer agente pode exec
@@ -31,19 +32,34 @@ pipeline {
             }
         }
 
+        stage ('Deploy Kubernetes') {
+            steps {
+                withKubeconfig([credentialsId: kubeConfigCredential]) {
+                    sh 'kubectl apply -f ./k8s/deployment.yaml'
+                }
+            }
+        }
+
     }
 
 
 }
+
+// Observações:
 /*
  Depois de criar o jenkinsfile -> painel -> Build Now
  Adicionar credenciais do docker hub ao jenkins para dar push na imagem
  painel -> Manage Jenkins -> Credentials -> System -> Global credentials
- Preencher:
+
+ Criar credencial dockerhub:
     Username with password
     - credenciais do docker hub
     - id = dockerhub
 
+ Criar credencial terraform:
+    - Secretfile
+    - adicionar kube_config.yaml gerado
+    - id = kubeconfig
 */
 
 // ? Solução para Jenkins CI Pipeline Scripts not permitted to use method:
