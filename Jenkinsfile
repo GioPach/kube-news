@@ -24,7 +24,7 @@ pipeline {
             steps {
                 script {
                     // dockerhub = id da credencial adicionada ao Jenkins
-                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+                    docker.withRegistry('https://registry.hub.docker.com', dockerCredential) {
                         dockerapp.push("${env.BUILD_ID}")
                         dockerapp.push('latest')
                     }
